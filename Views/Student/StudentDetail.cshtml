@@ -1,0 +1,24 @@
+﻿@model WebApp3ByAsim.Models.Student
+
+@{
+    ViewData["Title"] = "StudentDetail";
+}
+
+<h1>Student Detail</h1>
+
+<div>
+    <h4>Student ID: @Model.Id</h4>
+    <h4>Student Name: @Model.Name</h4>
+    <h4>Address: @Model.Address</h4>
+    <h4>Faculty: @Model.Faculty</h4>
+</div>
+
+<div>
+    <p>
+        @* Link to edit the current student record *@
+        <a asp-action="EditStudentRecord" asp-route-id="@Model.Id">Edit</a> |
+
+        @* Link to go back to the list of all students *@
+        <a asp-action="AllStudents">Back to List</a>
+    </p>
+</div>

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<WebApp3ByAsim.Models.Student>
+
+@{
+    ViewData["Title"] = "AllStudents";
+}
+
+<h1>AllColleges</h1>
+
+<p>
+    <a asp-controller="Student" asp-action="CreateStudentRecord">Create New Record</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th> Student ID</th>
+            <th> Student Name</th>
+            <th> Address</th>
+            <th> Faculty</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stu in Model)
+        {
+            <tr>
+                <td>
+                    @stu.Id
+                </td>
+                <td>
+                    @stu.Name
+                </td>
+                <td>
+                    @stu.Address
+                </td>
+                <td>
+                    @stu.Faculty
+                </td>
+                <td>
+                    <a asp-controller="Student" asp-action="StudentDetail" asp-route-id="@stu.Id">View</a>
+                    ||<a asp-action="EditStudentRecord" asp-route-id="@stu.Id">Edit</a>
+                    ||<a asp-action="DeleteStudentRecord" asp-route-id="@stu.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

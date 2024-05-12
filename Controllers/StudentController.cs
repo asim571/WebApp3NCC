@@ -68,7 +68,7 @@ namespace WebApp3ByAsim.Controllers
             }
         }
         [HttpPost]
-        public IActionResult EditCollegeRecord(Student s)
+        public IActionResult EditStudentRecord(Student s)
         {
             StudentRepo st = new StudentRepo();
             try

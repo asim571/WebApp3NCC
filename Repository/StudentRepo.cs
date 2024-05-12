@@ -11,13 +11,16 @@ namespace WebApp3ByAsim.Repository
             using (SqlConnection conn = new SqlConnection(conStr))
             {
                 conn.Open();
-                string myQuery = $"INSERT INTO Students_(Id,Name,Address,Faculty) " +
-                    $"VALUES({stu.Id},'{stu.Name}','{stu.Address}','{stu.Faculty}')";
+                string myQuery = "INSERT INTO Students_ (Id, Name, Address, Faculty) VALUES (@Id, @Name, @Address, @Faculty)";
                 SqlCommand cmd = new SqlCommand(myQuery, conn);
+                cmd.Parameters.AddWithValue("@Id", stu.Id);
+                cmd.Parameters.AddWithValue("@Name", stu.Name);
+                cmd.Parameters.AddWithValue("@Address", stu.Address);
+                cmd.Parameters.AddWithValue("@Faculty", stu.Faculty);
                 cmd.ExecuteNonQuery();
             }
         }
-        //method for getting all records from table
+
         public IEnumerable<Student> GetAllStudentsRecords()
         {
             string conStr = @"Server= ASIM; database= AsimNCCLab; integrated security=SSPI;TrustServerCertificate=True";
@@ -35,13 +38,12 @@ namespace WebApp3ByAsim.Repository
                     stu.Name = Convert.ToString(rdr["Name"]);
                     stu.Address = Convert.ToString(rdr["Address"]);
                     stu.Faculty = Convert.ToString(rdr["Faculty"]);
-
                     students.Add(stu);
                 }
             }
             return students;
         }
-        //to fetch single record detaial given the id value
+
         public Student GetSingleStudentRecord(int id)
         {
             string conStr = @"Server= ASIM; database= AsimNCCLab; integrated security=SSPI;TrustServerCertificate=True";
@@ -49,8 +51,9 @@ namespace WebApp3ByAsim.Repository
             using (SqlConnection conn = new SqlConnection(conStr))
             {
                 conn.Open();
-                string myQuery = $"SELECT * FROM Students_ WHERE Id ={id}";
+                string myQuery = "SELECT * FROM Students_ WHERE Id = @Id";
                 SqlCommand cmd = new SqlCommand(myQuery, conn);
+                cmd.Parameters.AddWithValue("@Id", id);
                 SqlDataReader rdr = cmd.ExecuteReader();
                 rdr.Read();
                 stu.Id = Convert.ToInt32(rdr["Id"]);
@@ -60,21 +63,24 @@ namespace WebApp3ByAsim.Repository
             }
             return stu;
         }
-        //to update the given record 
 
         public void EditRecord(Student stu)
         {
             string conStr = @"Server= ASIM; database= AsimNCCLab; integrated security=SSPI;TrustServerCertificate=True";
+
+            string myQuery = "UPDATE Students_ SET Name = @Name, Address = @Address, Faculty = @Faculty WHERE Id = @Id";
+
             using (SqlConnection conn = new SqlConnection(conStr))
             {
                 conn.Open();
-                string myQuery = $"UPDATE Students_ SET Id ={stu.Id}, Name = '{stu.Name}'" +
-                    $",Address = '{stu.Address}',Faculty = '{stu.Faculty}' WHERE Id ={stu.Id} ";
                 SqlCommand cmd = new SqlCommand(myQuery, conn);
+                cmd.Parameters.AddWithValue("@Name", stu.Name);
+                cmd.Parameters.AddWithValue("@Address", stu.Address);
+                cmd.Parameters.AddWithValue("@Faculty", stu.Faculty);
+                cmd.Parameters.AddWithValue("@Id", stu.Id);
                 cmd.ExecuteNonQuery();
             }
         }
-        //delete
 
         public void DeleteRecord(Student stu)
         {
@@ -82,11 +88,13 @@ namespace WebApp3ByAsim.Repository
             using (SqlConnection conn = new SqlConnection(conStr))
             {
                 conn.Open();
-                string myQuery = $"DELETE FROM Students_ WHERE Id = {stu.Id} ";
+                string myQuery = "DELETE FROM Students_ WHERE Id = @Id";
                 SqlCommand cmd = new SqlCommand(myQuery, conn);
+                cmd.Parameters.AddWithValue("@Id", stu.Id);
                 cmd.ExecuteNonQuery();
             }
         }
+
 
     }
 }
